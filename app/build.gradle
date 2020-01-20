@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -14,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "$API_KEY")
     }
     buildTypes {
         release {
@@ -25,11 +28,47 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$core_version"
+    implementation "androidx.core:core-ktx:$core_version"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //glide imports
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    //recycler view import
+    implementation "androidx.recyclerview:recyclerview:$recycler_version"
+
+    //custom tablayout
+    implementation "com.ismaeldivita.chipnavigation:chip-navigation-bar:$bottom_nav_version"
+
+    //image slider
+    implementation 'com.github.smarteist:autoimageslider:1.3.2-appcompat'
+
+    //live data
+    implementation "android.arch.lifecycle:extensions:$livedata_version"
+
+    //Rx Android
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
+    //retrofit load api
+    implementation "com.squareup.retrofit2:retrofit:2.7.0"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_gson_version"
+    implementation("com.squareup.okhttp3:logging-interceptor:$interceptor_version") {
+        transitive = true
+    }
+    implementation "com.google.code.gson:gson:$gson_version"
+    androidTestImplementation "com.android.support.test:runner:$test_runner_version"
+
+    //dagger
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }
