@@ -8,6 +8,6 @@ class HomeFragmentTest {
 
     @Test
     fun onCreateView() {
-        assertTrue(true)
+
     }
 }
