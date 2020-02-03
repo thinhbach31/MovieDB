@@ -7,6 +7,19 @@
     android:background="@color/colorWhite"
     tools:context=".screen.main.MainActivity">
 
+    <TextView
+        android:id="@+id/text_main_network_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGreen"
+        android:gravity="center"
+        android:text="@string/title_no_network_connection"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/sp_17"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/container_main"
         android:layout_width="match_parent"
@@ -18,16 +31,16 @@
         android:id="@+id/main_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:background="@color/colorBlurBlack"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
 
         <com.wang.avi.AVLoadingIndicatorView
             style="@style/AVLoadingIndicatorView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:indicatorColor="@color/colorGreen"
-            app:indicatorName="BallRotateIndicator"/>
+            app:indicatorName="BallRotateIndicator" />
     </LinearLayout>
 
 

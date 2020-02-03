@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    abstract fun showLoading()
+
+    abstract fun hideLoading()
+
     fun moveActivityWithoutAddToBackstack(activity: BaseActivity) {
         Intent().also {
             it.setClass(this, activity::class.java)

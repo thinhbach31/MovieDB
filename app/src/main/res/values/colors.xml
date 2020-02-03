@@ -9,7 +9,8 @@
     <color name="colorDarkBlack">#020101</color>
     <color name="colorBlurBlack">#8A140C0C</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorBlurWhite">#9EFFFFFF</color>
     <color name="colorWhiteGrey">#E9E3E3</color>
     <color name="colorGrey">#C2C2C2</color>
-    <color name="colorBlurGrey">#48E6E1E1</color>
+    <color name="colorBlurGrey">#57E6E1E1</color>
 </resources>

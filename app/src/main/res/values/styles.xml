@@ -9,4 +9,7 @@
         <item name="android:windowActionBar">false</item>
     </style>
 
+    <style name="BackgroundMain">
+        <item name="android:background">@color/colorWhite</item>
+    </style>
 </resources>
