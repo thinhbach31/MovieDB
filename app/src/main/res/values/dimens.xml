@@ -28,4 +28,5 @@
     <!--    dip -->
     <dimen name="dip_12">12dip</dimen>
     <dimen name="dip_8">8dip</dimen>
+    <dimen name="dp_3">3dp</dimen>
 </resources>

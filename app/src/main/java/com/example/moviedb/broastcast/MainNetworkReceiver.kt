@@ -6,17 +6,18 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.widget.Toast
+import com.example.moviedb.screen.main.MainActivity
 
-class MainNetworkReceiver: BroadcastReceiver() {
+class MainNetworkReceiver(private val activity: MainActivity) : BroadcastReceiver() {
 
     private var capabilities: NetworkCapabilities? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (isOnline(context!!)) {
-            Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
+            activity.hideNetworkStatus()
+
         } else {
-            Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
+            activity.showNetworkStatus()
         }
     }
 

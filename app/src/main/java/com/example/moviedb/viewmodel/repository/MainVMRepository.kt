@@ -9,7 +9,7 @@ import io.reactivex.schedulers.Schedulers
 
 object MainVMRepository {
 
-    fun getListMovies(
+    fun getPopularMovies(
         disposable: CompositeDisposable, moviesBody: MoviesBody,
         mainViewModel: MainViewModel
     ) {
@@ -28,7 +28,88 @@ object MainVMRepository {
                     mainViewModel.showLoading(false)
                 }
                 .subscribe({
-                    mainViewModel.setListMovieResponse(it)
+                    mainViewModel.setPopularMovieResponse(it)
+                }, {
+                    mainViewModel.showFailure(it)
+                })
+
+        )
+    }
+
+    fun getNowPlayingMovies(
+        disposable: CompositeDisposable, moviesBody: MoviesBody,
+        mainViewModel: MainViewModel
+    ) {
+        disposable.add(
+            APIBuilder.getWebService().getNowPlayingMovies(
+                moviesBody.api_key,
+                moviesBody.language,
+                moviesBody.page
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    mainViewModel.showLoading(true)
+                }
+                .doFinally {
+                    mainViewModel.showLoading(false)
+                }
+                .subscribe({
+                    mainViewModel.setNowPlayingMovieResponse(it)
+                }, {
+                    mainViewModel.showFailure(it)
+                })
+
+        )
+    }
+
+    fun getUpcomingMovies(
+        disposable: CompositeDisposable, moviesBody: MoviesBody,
+        mainViewModel: MainViewModel
+    ) {
+        disposable.add(
+            APIBuilder.getWebService().getUpcomingMovies(
+                moviesBody.api_key,
+                moviesBody.language,
+                moviesBody.page
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    mainViewModel.showLoading(true)
+                }
+                .doFinally {
+                    mainViewModel.showLoading(false)
+                }
+                .subscribe({
+                    mainViewModel.setUpcomingMovieResponse(it)
+                }, {
+                    mainViewModel.showFailure(it)
+                })
+
+        )
+    }
+
+    fun getTopRateMovies(
+        disposable: CompositeDisposable, moviesBody: MoviesBody,
+        mainViewModel: MainViewModel
+    ) {
+        disposable.add(
+            APIBuilder.getWebService().getTopRateMovies(
+                moviesBody.api_key,
+                moviesBody.language,
+                moviesBody.page
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    mainViewModel.showLoading(true)
+                }
+                .doFinally {
+                    mainViewModel.showLoading(false)
+                }
+                .subscribe({
+                    mainViewModel.setTopRateMovieResponse(it)
                 }, {
                     mainViewModel.showFailure(it)
                 })
