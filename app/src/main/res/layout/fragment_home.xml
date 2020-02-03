@@ -7,9 +7,10 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/main_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorBlurGrey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -39,7 +40,7 @@
                 app:sliderIndicatorRadius="@dimen/dp_2"
                 app:sliderIndicatorSelectedColor="@color/colorBlurGrey"
                 app:sliderIndicatorUnselectedColor="@color/colorBlurWhite"
-                app:sliderScrollTimeInSec="1"
+                app:sliderScrollTimeInSec="3"
                 app:sliderStartAutoCycle="true" />
 
             <TextView
@@ -48,8 +49,8 @@
                 android:layout_marginStart="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_10"
                 android:text="@string/title_category"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp_20"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/sp_25"
                 android:textStyle="bold"
                 app:layout_collapseMode="pin" />
 

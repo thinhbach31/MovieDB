@@ -11,12 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
+import com.example.moviedb.base.ImageSliderAdapter
 import com.example.moviedb.listener.MovieItemClickListener
 import com.example.moviedb.model.entry.ListMoviesEntry
 import com.example.moviedb.model.entry.Result
 import com.example.moviedb.screen.home.adapter.MovieAdapter
 import com.example.moviedb.viewmodel.factory.MainVMFactory
 import com.example.moviedb.viewmodel.viewmodel.MainViewModel
+import com.google.android.material.appbar.AppBarLayout
+import com.smarteist.autoimageslider.IndicatorAnimations
+import com.smarteist.autoimageslider.SliderAnimations
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
@@ -45,10 +49,35 @@ class HomeFragment : BaseFragment() {
 
         startingObserver()
 
+        initAppbarLayout()
+
+        movieTypeDetail()
+
         main_swipe.setOnRefreshListener {
             main_swipe.isRefreshing = true
             refreshList()
         }
+    }
+
+    private fun initAppbarLayout() {
+        main_appbar_layout.addOnOffsetChangedListener(object :
+            AppBarLayout.OnOffsetChangedListener {
+            var isShow = true
+            var scrollRange = -1
+
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout?.totalScrollRange!!
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    isShow = false
+                    hideOption()
+                } else if (!isShow) {
+                    isShow = true
+                    showOption()
+                }
+            }
+        })
     }
 
     private fun startingObserver() {
@@ -60,8 +89,8 @@ class HomeFragment : BaseFragment() {
 
     private fun observe() {
         viewModel.getNowPlayingMoviesResponse().observe(viewLifecycleOwner, Observer {
+            initSlider(it)
             initRecycler(recycler_home_now_playing, it)
-
         })
 
         viewModel.getPopularMoviesResponse().observe(viewLifecycleOwner, Observer {
@@ -76,6 +105,24 @@ class HomeFragment : BaseFragment() {
             initRecycler(recycler_home_top_rate, it)
         })
 
+    }
+
+    private fun initSlider(it: ListMoviesEntry) {
+        val listImage = ArrayList<String>()
+
+        for (movie in it.results) {
+            if (listImage.size > 4) {
+                break
+            }
+            listImage.add(movie.posterPath)
+        }
+
+        ImageSliderAdapter(context!!, listImage).also {
+            home_image_slider.sliderAdapter = it
+        }
+        home_image_slider.startAutoCycle()
+        home_image_slider.setIndicatorAnimation(IndicatorAnimations.WORM)
+        home_image_slider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
     }
 
     private fun initRecycler(recycler: RecyclerView, it: ListMoviesEntry) {
@@ -94,9 +141,35 @@ class HomeFragment : BaseFragment() {
         recycler.setHasFixedSize(true)
     }
 
+
+    private fun movieTypeDetail() {
+        text_home_now_playing.setOnClickListener {
+            Toast.makeText(context, text_home_now_playing.text.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        text_home_popular.setOnClickListener {
+            Toast.makeText(context, text_home_popular.text.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        text_home_top_rate.setOnClickListener {
+            Toast.makeText(context, text_home_top_rate.text.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        text_home_upcoming.setOnClickListener {
+            Toast.makeText(context, text_home_upcoming.text.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun refreshList() {
         main_swipe.isRefreshing = false
         startingObserver()
-        Toast.makeText(context, "done", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showOption() {
+        home_image_slider.visibility = View.VISIBLE
+    }
+
+    private fun hideOption() {
+        home_image_slider.visibility = View.INVISIBLE
     }
 }
