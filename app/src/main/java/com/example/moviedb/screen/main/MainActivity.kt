@@ -38,7 +38,7 @@ class MainActivity : BaseActivity() {
         initNetworkReceiver()
 
         MainFragment().apply {
-            addFragmentWithoutAddToStack(R.id.container_main, this)
+            (this@MainActivity).addFragmentWithoutAddToStack(R.id.container_main, this)
         }
     }
 

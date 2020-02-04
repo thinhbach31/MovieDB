@@ -12,10 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
 import com.example.moviedb.base.BaseFragment
 import com.example.moviedb.base.ImageSliderAdapter
+import com.example.moviedb.base.StringUtils
+import com.example.moviedb.base.StringUtils.Companion.DEFAULT_PAGE
+import com.example.moviedb.base.Util
 import com.example.moviedb.listener.MovieItemClickListener
 import com.example.moviedb.model.entry.ListMoviesEntry
 import com.example.moviedb.model.entry.Result
 import com.example.moviedb.screen.home.adapter.MovieAdapter
+import com.example.moviedb.screen.home.listener.HomeBackpressedListener
+import com.example.moviedb.screen.sorted.SortedMovieFragment
 import com.example.moviedb.viewmodel.factory.MainVMFactory
 import com.example.moviedb.viewmodel.viewmodel.MainViewModel
 import com.google.android.material.appbar.AppBarLayout
@@ -23,9 +28,7 @@ import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderAnimations
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseFragment() {
-
-    private val DEFAULT_PAGE = 1
+class HomeFragment : BaseFragment(), HomeBackpressedListener {
 
     private lateinit var viewModel: MainViewModel
 
@@ -59,6 +62,10 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    override fun onBackpressListener() {
+        startingObserver()
+    }
+
     private fun initAppbarLayout() {
         main_appbar_layout.addOnOffsetChangedListener(object :
             AppBarLayout.OnOffsetChangedListener {
@@ -81,10 +88,10 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun startingObserver() {
-        viewModel.getPopularMovies(DEFAULT_PAGE)
-        viewModel.getNowPlayingMovies(DEFAULT_PAGE)
-        viewModel.getUpcomingMovies(DEFAULT_PAGE)
-        viewModel.getTopRateMovies(DEFAULT_PAGE)
+        viewModel.getMovies(DEFAULT_PAGE, StringUtils.NOWPLAYING)
+        viewModel.getMovies(DEFAULT_PAGE, StringUtils.UPCOMING)
+        viewModel.getMovies(DEFAULT_PAGE, StringUtils.POPULAR)
+        viewModel.getMovies(DEFAULT_PAGE, StringUtils.TOPRATED)
     }
 
     private fun observe() {
@@ -144,25 +151,42 @@ class HomeFragment : BaseFragment() {
 
     private fun movieTypeDetail() {
         text_home_now_playing.setOnClickListener {
-            Toast.makeText(context, text_home_now_playing.text.toString(), Toast.LENGTH_SHORT).show()
+            SortedMovieFragment(StringUtils.NOWPLAYING, this).apply {
+                this@HomeFragment.addFragmentAddToStack(
+                    R.id.container_main, this, this::class.java.simpleName
+                )
+            }
         }
 
         text_home_popular.setOnClickListener {
-            Toast.makeText(context, text_home_popular.text.toString(), Toast.LENGTH_SHORT).show()
+            SortedMovieFragment(StringUtils.POPULAR, this).apply {
+                this@HomeFragment.addFragmentAddToStack(
+                    R.id.container_main, this, this::class.java.simpleName
+                )
+            }
         }
 
         text_home_top_rate.setOnClickListener {
-            Toast.makeText(context, text_home_top_rate.text.toString(), Toast.LENGTH_SHORT).show()
+            SortedMovieFragment(StringUtils.TOPRATED, this).apply {
+                this@HomeFragment.addFragmentAddToStack(
+                    R.id.container_main, this, this::class.java.simpleName
+                )
+            }
         }
 
         text_home_upcoming.setOnClickListener {
-            Toast.makeText(context, text_home_upcoming.text.toString(), Toast.LENGTH_SHORT).show()
+            SortedMovieFragment(StringUtils.UPCOMING, this).apply {
+                this@HomeFragment.addFragmentAddToStack(
+                    R.id.container_main, this, this::class.java.simpleName
+                )
+            }
         }
     }
 
     private fun refreshList() {
         main_swipe.isRefreshing = false
         startingObserver()
+        Util.showToast(context!!, getString(R.string.title_updated))
     }
 
     private fun showOption() {

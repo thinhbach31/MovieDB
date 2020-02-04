@@ -24,8 +24,7 @@ class ImageSliderAdapter(private var context: Context, private var listImage: Ar
 
     override fun onBindViewHolder(viewHolder: SliderViewHolder, position: Int) {
         val image = listImage[position]
-        val imageUrl = StringBuilder(StringUtils.DEFAULT_IMAGE_URL_PATH).append(image)
-        Glide.with(context).load(imageUrl.toString()).into(viewHolder.imageViewBackground)
+        Glide.with(context).load(Util.getImageUrl(image)).into(viewHolder.imageViewBackground)
     }
 
     class SliderViewHolder(itemView: View) :
