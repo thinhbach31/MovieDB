@@ -12,4 +12,8 @@
     <style name="BackgroundMain">
         <item name="android:background">@color/colorWhite</item>
     </style>
+
+    <style name="ProgressbarRatingStyle">
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
 </resources>
